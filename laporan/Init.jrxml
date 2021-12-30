@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Init" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="25ecea7a-d82f-43fc-807f-176f6ccf65ef">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="app_penjualan"/>
+	<queryString language="SQL">
+		<![CDATA[select * from tb_properties]]>
+	</queryString>
+	<field name="nama_toko" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nama_toko"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_properties"/>
+	</field>
+	<field name="alamat" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="alamat"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_properties"/>
+	</field>
+	<field name="telp" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="telp"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_properties"/>
+	</field>
+	<field name="npwp" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="npwp"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_properties"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
