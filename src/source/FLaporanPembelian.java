@@ -132,8 +132,8 @@ public class FLaporanPembelian {
 			Map<String, Object> param = new HashMap<String, Object>();
 			
 			String reportName = ".\\laporan\\LaporanPembelian.jasper";
-			param.put("paramMulai", df.format(datePicker.getDate()));
-			param.put("paramSampai", df.format(datePicker_1.getDate()));
+			param.put("paramMulai", java.sql.Date.valueOf(df.format(datePicker.getDate())));
+			param.put("paramSampai", java.sql.Date.valueOf(df.format(datePicker_1.getDate())));
 			
 			JasperPrint print = JasperFillManager.fillReport(reportName, param, db.con);
 			JRViewer jv = new JRViewer(print);
@@ -156,6 +156,7 @@ public class FLaporanPembelian {
 		} catch (Exception e) {
 			// TODO: handle exception
 			window.frame.setEnabled(true);
+			System.out.println(e);
 			JOptionPane.showMessageDialog(null, "Data tidak ditemukan");
 		}
 	}
@@ -168,8 +169,8 @@ public class FLaporanPembelian {
 			String reportName = ".\\laporan\\LaporanPembelian.jasper";
 			String outXlsName = System.getProperty("user.home")+"\\Desktop\\LaporanPembelian " +
 				df.format(cal.getTime())+".xls";
-			param.put("paramMulai", df.format(datePicker.getDate()));
-			param.put("paramSampai", df.format(datePicker_1.getDate()));
+			param.put("paramMulai", java.sql.Date.valueOf(df.format(datePicker.getDate())));
+			param.put("paramSampai",  java.sql.Date.valueOf(df.format(datePicker_1.getDate())));
 			JasperPrint jp = JasperFillManager.fillReport(reportName, param, db.con);
 			jp.setProperty("net.sf.jasperreports.export.xls.ignore.graphics", "true");
 			JRXlsExporter xlsExporter = new JRXlsExporter();

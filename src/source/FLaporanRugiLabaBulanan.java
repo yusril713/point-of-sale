@@ -262,7 +262,7 @@ public class FLaporanRugiLabaBulanan {
 	}
 	
 	private void Cetak() {
-		int totalReturn = AmbilTotalReturn(cmbBulan.getSelectedItem().toString() + " " + cmbTahun.getSelectedItem().toString());
+		int totalReturn = AmbilTotalReturn(cmbBulan.getSelectedItem().toString() + cmbTahun.getSelectedItem().toString());
 		long labaKotor = (AmbilTotalRugiLaba() - AmbilTotalPiutang() - totalReturn);
 		long labaUsaha = labaKotor - AmbilCashFlow("Pengeluaran");
 		long labaBersih = labaUsaha + AmbilCashFlow("Pemasukan");

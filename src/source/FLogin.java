@@ -98,29 +98,30 @@ public class FLogin {
 			}
 		});
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(FLogin.class.getResource("/img/Login.png")));
-		frame.getContentPane().setBackground(Color.BLUE);
-		frame.setBounds(100, 100, 345, 174);
+		frame.getContentPane().setBackground(Color.LIGHT_GRAY);
+		frame.setBounds(100, 100, 423, 204);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.BLUE);
-		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Masukkan username dan password", TitledBorder.LEADING, TitledBorder.TOP, null, Color.LIGHT_GRAY));
-		panel.setBounds(10, 11, 318, 124);
+		panel.setBackground(Color.LIGHT_GRAY);
+		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "LOGIN", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBounds(17, 22, 367, 119);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		txtUsername = new JTextField();
 		txtUsername.setBorder(null);
 		txtUsername.setHorizontalAlignment(SwingConstants.CENTER);
-		txtUsername.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtUsername.setBounds(110, 17, 198, 25);
+		txtUsername.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		txtUsername.setBounds(95, 17, 260, 28);
 		panel.add(txtUsername);
 		txtUsername.setColumns(10);
 		
 		pwdPassword = new JPasswordField();
+		pwdPassword.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		pwdPassword.setBorder(null);
 		pwdPassword.setEchoChar('φ');
 		pwdPassword.addKeyListener(new KeyAdapter() {
@@ -131,19 +132,20 @@ public class FLogin {
 			}
 		});
 		pwdPassword.setHorizontalAlignment(SwingConstants.CENTER);
-		pwdPassword.setBounds(110, 53, 198, 25);
+		pwdPassword.setBounds(95, 50, 260, 28);
 		panel.add(pwdPassword);
 		
 		lblUsername = new JLabel("Username");
-		lblUsername.setForeground(Color.LIGHT_GRAY);
-		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblUsername.setBounds(10, 23, 64, 14);
+		lblUsername.setForeground(Color.BLACK);
+		lblUsername.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		lblUsername.setBounds(6, 24, 80, 14);
 		panel.add(lblUsername);
 		
 		lblPassword = new JLabel("Password");
-		lblPassword.setForeground(Color.LIGHT_GRAY);
-		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblPassword.setBounds(10, 58, 64, 14);
+		lblPassword.setBackground(Color.BLACK);
+		lblPassword.setForeground(Color.BLACK);
+		lblPassword.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		lblPassword.setBounds(6, 57, 80, 14);
 		panel.add(lblPassword);
 		
 		JButton btnBatal = new JButton("Batal");
@@ -154,10 +156,10 @@ public class FLogin {
 					System.exit(0);
 			}
 		});
-		btnBatal.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnBatal.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		btnBatal.setIcon(new ImageIcon(FLogin.class.getResource("/img/Batal.png")));
 		btnBatal.setBorder(null);
-		btnBatal.setBounds(219, 89, 89, 25);
+		btnBatal.setBounds(266, 84, 89, 25);
 		panel.add(btnBatal);
 		
 		JButton btnLogin = new JButton("Login");
@@ -166,10 +168,10 @@ public class FLogin {
 				Login();
 			}
 		});
-		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnLogin.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		btnLogin.setIcon(new ImageIcon(FLogin.class.getResource("/img/Log_in.png")));
 		btnLogin.setBorder(null);
-		btnLogin.setBounds(110, 89, 89, 25);
+		btnLogin.setBounds(170, 84, 89, 25);
 		panel.add(btnLogin);
 	}
 	

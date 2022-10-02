@@ -108,9 +108,9 @@ public class FPembelian {
 		});
 		frame.getContentPane().setBackground(Color.WHITE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{30, 123, 47, 173, 43, 168, 220, 215, 166, 0};
+		gridBagLayout.columnWidths = new int[]{30, 123, 47, 173, 43, 168, 220, 215, 111, 0};
 		gridBagLayout.rowHeights = new int[]{20, 28, 25, 28, 28, 28, 136, 29, 29, 0, 30, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
@@ -363,10 +363,9 @@ public class FPembelian {
 			}
 		});
 		btnBatal.setIcon(new ImageIcon(FPembelian.class.getResource("/img/Batal.png")));
-		btnBatal.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnBatal.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		GridBagConstraints gbc_btnBatal = new GridBagConstraints();
-		gbc_btnBatal.anchor = GridBagConstraints.EAST;
-		gbc_btnBatal.fill = GridBagConstraints.VERTICAL;
+		gbc_btnBatal.fill = GridBagConstraints.BOTH;
 		gbc_btnBatal.insets = new Insets(0, 0, 5, 20);
 		gbc_btnBatal.gridx = 8;
 		gbc_btnBatal.gridy = 4;
@@ -405,10 +404,9 @@ public class FPembelian {
 			}
 		});
 		btnSimpan.setIcon(new ImageIcon(FPembelian.class.getResource("/img/Simpan.png")));
-		btnSimpan.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnSimpan.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		GridBagConstraints gbc_btnSimpan = new GridBagConstraints();
-		gbc_btnSimpan.anchor = GridBagConstraints.EAST;
-		gbc_btnSimpan.fill = GridBagConstraints.VERTICAL;
+		gbc_btnSimpan.fill = GridBagConstraints.BOTH;
 		gbc_btnSimpan.insets = new Insets(0, 0, 5, 20);
 		gbc_btnSimpan.gridx = 8;
 		gbc_btnSimpan.gridy = 5;

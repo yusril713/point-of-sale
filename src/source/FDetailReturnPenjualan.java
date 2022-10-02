@@ -322,7 +322,7 @@ public class FDetailReturnPenjualan {
 						cmbSatuan.getSelectedItem().toString(),
 						txtHarga.getText(),
 						txtJumlah.getText(),
-						FMain.FormatAngka(Integer.parseInt(txtHarga.getText().replace(",", "")) * Integer.parseInt(txtJumlah.getText())),
+						FMain.FormatAngka((int) (Integer.parseInt(txtHarga.getText().replace(",", "")) * Double.parseDouble(txtJumlah.getText()))),
 						group.getSelection().getActionCommand(),
 						txtpnKeterangan.getText()
 				});
@@ -332,7 +332,7 @@ public class FDetailReturnPenjualan {
 			FReturnPenjualan.table.setValueAt(cmbSatuan.getSelectedItem().toString(), row, 2);
 			FReturnPenjualan.table.setValueAt(txtHarga.getText(), row, 3);
 			FReturnPenjualan.table.setValueAt(txtJumlah.getText(), row, 4);
-			FReturnPenjualan.table.setValueAt(FMain.FormatAngka(Integer.parseInt(txtHarga.getText().replace(",", "")) * Integer.parseInt(txtJumlah.getText())), row, 5);
+			FReturnPenjualan.table.setValueAt(FMain.FormatAngka((int) (Integer.parseInt(txtHarga.getText().replace(",", "")) * Double.parseDouble(txtJumlah.getText()))), row, 5);
 			FReturnPenjualan.table.setValueAt(group.getSelection().getActionCommand(), row, 6);
 			FReturnPenjualan.table.setValueAt(txtpnKeterangan.getText(), row, 7);
 		}

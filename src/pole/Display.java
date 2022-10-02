@@ -1,6 +1,6 @@
 package pole;
 
-import gnu.io.*;                                
+import gnu.io.*;
 import source.FMain;
 
 import java.io.*;

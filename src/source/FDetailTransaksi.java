@@ -7,7 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
-
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.JButton;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -44,6 +45,10 @@ public class FDetailTransaksi {
 	int harga_beli = 0;
 	private SwingWorker<String, Object> sw;
 	private int subtot;
+	private JTextField txtJumlahDiambil;
+	private JTextField txtJumlahDisimpan;
+	private double jumlahDO;
+	private JTextField txtDo;
 
 	/**
 	 * Launch the application.
@@ -80,11 +85,17 @@ public class FDetailTransaksi {
 				if (!edit) {
 					AmbilIdNamaBarang();
 					TampilSatuan(txtId.getText());
+					CekDo();
+					txtJumlahDiambil.setText(txtQty.getText());
+					txtJumlahDisimpan.setText("0");
 				} else {
 					txtId.setText(id);
 					txtNama.setText(nama);
 					TampilSatuan(txtId.getText());
+					CekDo();
 					txtQty.setText(qty);
+					txtJumlahDiambil.setText(txtQty.getText());
+					txtJumlahDisimpan.setText("0");
 					txtHarga.setText(harga);
 					txtQty.requestFocus();
 				}
@@ -95,7 +106,7 @@ public class FDetailTransaksi {
 				window.frame.dispose();
 			}
 		});
-		frame.setBounds(100, 100, 341, 251);
+		frame.setBounds(100, 100, 341, 338);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -114,7 +125,7 @@ public class FDetailTransaksi {
 		frame.getContentPane().add(lblSatuan);
 		
 		JLabel lblHarga = new JLabel("Harga");
-		lblHarga.setBounds(10, 136, 46, 16);
+		lblHarga.setBounds(10, 162, 46, 16);
 		frame.getContentPane().add(lblHarga);
 		
 		JLabel lblSisaStok = new JLabel("Sisa Stok");
@@ -122,7 +133,7 @@ public class FDetailTransaksi {
 		frame.getContentPane().add(lblSisaStok);
 		
 		JLabel lblQty = new JLabel("Qty");
-		lblQty.setBounds(10, 161, 46, 16);
+		lblQty.setBounds(10, 187, 46, 16);
 		frame.getContentPane().add(lblQty);
 		
 		txtId = new JTextField();
@@ -176,7 +187,7 @@ public class FDetailTransaksi {
 				}
 			}
 		});
-		txtHarga.setBounds(109, 131, 213, 26);
+		txtHarga.setBounds(109, 157, 213, 26);
 		frame.getContentPane().add(txtHarga);
 		txtHarga.setColumns(10);
 		
@@ -198,7 +209,26 @@ public class FDetailTransaksi {
 		        }
 			}
 		});
-		txtQty.setBounds(109, 156, 213, 26);
+		txtQty.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				EventChanged();
+			}
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				EventChanged();
+			}
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				EventChanged();
+			}
+			public void EventChanged() {
+				if (!txtQty.getText().equals("")) {
+					txtJumlahDiambil.setText(txtQty.getText());
+				}
+			}
+		});
+		txtQty.setBounds(109, 182, 213, 26);
 		frame.getContentPane().add(txtQty);
 		txtQty.setColumns(10);
 		
@@ -211,14 +241,14 @@ public class FDetailTransaksi {
 				window.frame.dispose();
 			}
 		});
-		btnBatal.setBounds(222, 189, 100, 26);
+		btnBatal.setBounds(221, 268, 100, 26);
 		frame.getContentPane().add(btnBatal);
 		
 		JButton btnTambahkan = new JButton("Tambahkan");
 		btnTambahkan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (Double.parseDouble(txtQty.getText()) <= 
-						Double.parseDouble(txtStok.getText())) {
+						(Double.parseDouble(txtStok.getText()) - Double.parseDouble(txtDo.getText()))) {
 					TambahkanKeList();
 					FTransaksi.window.frame.setEnabled(true);
 					FTransaksi.txtKodeNama.setText("");
@@ -226,10 +256,10 @@ public class FDetailTransaksi {
 					window.frame.dispose();
 				} else 
 					JOptionPane.showMessageDialog(null, "Stok tidak mencukupi."
-							+ "\nStok saat ini sebanyak: " + txtStok.getText());
+							+ "\nStok saat ini sebanyak: " + txtStok.getText() + " dan DO sebanyak: " + txtDo.getText());
 			}
 		});
-		btnTambahkan.setBounds(109, 189, 100, 26);
+		btnTambahkan.setBounds(109, 268, 100, 26);
 		frame.getContentPane().add(btnTambahkan);
 		
 		comboBox = new JComboBox<>();
@@ -241,6 +271,7 @@ public class FDetailTransaksi {
 					txtQty.requestFocus();
 					txtHarga.selectAll();
 					txtQty.setText("1");
+					CekDo();
 				}
 			}
 		});
@@ -248,14 +279,76 @@ public class FDetailTransaksi {
 		frame.getContentPane().add(comboBox);
 		
 		JLabel lblDiskon = new JLabel("Diskon");
-		lblDiskon.setBounds(10, 111, 46, 16);
+		lblDiskon.setBounds(10, 137, 46, 16);
 		frame.getContentPane().add(lblDiskon);
 		
 		txtDiskon = new JTextField();
 		txtDiskon.setEditable(false);
-		txtDiskon.setBounds(109, 106, 213, 26);
+		txtDiskon.setBounds(109, 132, 213, 26);
 		frame.getContentPane().add(txtDiskon);
 		txtDiskon.setColumns(10);
+		
+		JLabel lblQty_1 = new JLabel("Jumlah diambil");
+		lblQty_1.setBounds(10, 212, 87, 16);
+		frame.getContentPane().add(lblQty_1);
+		
+		txtJumlahDiambil = new JTextField();
+		txtJumlahDiambil.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				char c = arg0.getKeyChar();
+		        if (((c < '0') || (c > '9')) && 
+		        		(c != '\b') && 
+		        		(c != '') && (c != '.')) {
+		        	arg0.consume();
+		        }
+			}
+		});
+		txtJumlahDiambil.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				EventChanged();
+			}
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				EventChanged();
+			}
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				EventChanged();
+			}
+			public void EventChanged() {
+				if (!txtJumlahDiambil.getText().equals("")) {
+					double qty = Double.parseDouble(txtQty.getText());
+					double diambil = Double.parseDouble(txtJumlahDiambil.getText());
+					double disimpan = qty - diambil;
+					txtJumlahDisimpan.setText("" + disimpan);
+				}
+			}
+		});
+		txtJumlahDiambil.setColumns(10);
+		txtJumlahDiambil.setBounds(109, 207, 213, 26);
+		frame.getContentPane().add(txtJumlahDiambil);
+		
+		JLabel lblQty_2 = new JLabel("Jumlah disimpan");
+		lblQty_2.setBounds(10, 238, 100, 16);
+		frame.getContentPane().add(lblQty_2);
+		
+		txtJumlahDisimpan = new JTextField();
+		txtJumlahDisimpan.setEditable(false);
+		txtJumlahDisimpan.setColumns(10);
+		txtJumlahDisimpan.setBounds(109, 233, 213, 26);
+		frame.getContentPane().add(txtJumlahDisimpan);
+		
+		JLabel lblSisaStok_1 = new JLabel("DO");
+		lblSisaStok_1.setBounds(10, 111, 46, 16);
+		frame.getContentPane().add(lblSisaStok_1);
+		
+		txtDo = new JTextField();
+		txtDo.setEditable(false);
+		txtDo.setColumns(10);
+		txtDo.setBounds(109, 106, 213, 26);
+		frame.getContentPane().add(txtDo);
 	}
 	
 	private void AmbilIdNamaBarang() {
@@ -346,7 +439,7 @@ public class FDetailTransaksi {
 		if (!edit) {
 			boolean cek = false;
 			for (int i = 0; i < FTransaksi.model.getRowCount(); i++) {
-				if (txtId.getText().equals(FTransaksi.model.getValueAt(i, 0).toString())) {
+				if (txtId.getText().equals(FTransaksi.model.getValueAt(i, 0).toString()) && comboBox.getSelectedItem().toString().equals(FTransaksi.model.getValueAt(i, 2).toString())) {
 					cek = true;
 					break;
 				}
@@ -358,7 +451,9 @@ public class FDetailTransaksi {
 						comboBox.getSelectedItem().toString(),
 						FMain.FormatAngka(harga),
 						txtQty.getText(),
-						FMain.FormatAngka((int) (harga * qty))
+						FMain.FormatAngka((int) (harga * qty)),
+						txtJumlahDiambil.getText(),
+						txtJumlahDisimpan.getText(),
 				}); 
 			} else 
 				JOptionPane.showMessageDialog(null, "Data barang telah ada!!!");
@@ -367,6 +462,8 @@ public class FDetailTransaksi {
 			FTransaksi.table.setValueAt(FMain.FormatAngka(harga), row, 3);
 			FTransaksi.table.setValueAt(txtQty.getText(), row, 4);
 			FTransaksi.table.setValueAt(FMain.FormatAngka((int)(harga * qty)), row, 5);
+			FTransaksi.table.setValueAt(txtJumlahDiambil.getText(), row, 6);
+			FTransaksi.table.setValueAt(txtJumlahDisimpan.getText(), row, 7);
 		}
 		
 		
@@ -391,5 +488,25 @@ public class FDetailTransaksi {
 		t1.start();
 		
 		FTransaksi.txtSubTotal.setText(FMain.FormatAngka(subtot));
+	}
+	
+	private void CekDo() {
+		db.con();
+		try {
+			String query = "select sum(jumlah_do) as do from tb_do where id_barang = ? and satuan = ?";
+			PreparedStatement ps = db.con.prepareStatement(query);
+			ps.setString(1, txtId.getText());
+			ps.setString(2, comboBox.getSelectedItem().toString());
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				jumlahDO = rs.getDouble("do");
+				txtDo.setText(""+ jumlahDO);
+			}
+			rs.close();
+			ps.close();
+			db.con.close();
+		} catch(Exception e) {
+			System.out.println("error cek do" + e);
+		}
 	}
 }

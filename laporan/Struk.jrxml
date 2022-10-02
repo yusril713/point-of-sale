@@ -16,10 +16,12 @@ tb_detail_transaksi.satuan, tb_transaksi.no_faktur
 from tb_transaksi
 inner join tb_detail_transaksi on tb_transaksi.no_faktur = tb_detail_transaksi.no_faktur
 inner join tb_pelanggan on tb_transaksi.id_pelanggan = tb_pelanggan.id
+inner join tb_detail_barang on tb_detail_transaksi.id_barang = tb_detail_barang.id_barang and tb_detail_transaksi.satuan = tb_detail_transaksi.satuan
 inner join tb_barang on tb_detail_transaksi.id_barang = tb_barang.id
 inner join tb_karyawan on tb_transaksi.id_karyawan = tb_karyawan.id
 join tb_properties on tb_properties.nama_toko = tb_properties.nama_toko
-where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
+where tb_transaksi.no_faktur = $P{paramNoFaktur}
+group by tb_detail_transaksi.id_barang, tb_detail_transaksi.satuan]]>
 	</queryString>
 	<field name="nama_toko" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="nama_toko"/>
@@ -93,9 +95,9 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 		<band height="20" splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="53" splitType="Stretch">
+		<band height="64" splitType="Stretch">
 			<textField>
-				<reportElement x="30" y="10" width="93" height="10" uuid="3225c1cf-ca9a-4415-80ff-7882d0ffcab3"/>
+				<reportElement x="30" y="21" width="120" height="10" uuid="3225c1cf-ca9a-4415-80ff-7882d0ffcab3"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font fontName="SansSerif" size="7"/>
 					<paragraph spacingBefore="0" spacingAfter="0"/>
@@ -103,15 +105,15 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 				<textFieldExpression><![CDATA[$F{telp}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="90" y="0" width="60" height="10" uuid="07b80605-0b19-4bec-bb5f-0e2408e2e2c0"/>
+				<reportElement x="90" y="1" width="60" height="10" uuid="07b80605-0b19-4bec-bb5f-0e2408e2e2c0"/>
 				<textElement textAlignment="Right" verticalAlignment="Bottom">
 					<font fontName="SansSerif" size="7"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tanggal}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="30" y="0" width="76" height="10" uuid="f8e11608-bdda-456e-a8a2-0c4d47fbc734"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="30" y="11" width="120" height="10" uuid="f8e11608-bdda-456e-a8a2-0c4d47fbc734"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font fontName="SansSerif" size="7"/>
 					<paragraph spacingBefore="0" spacingAfter="0"/>
@@ -119,7 +121,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 				<textFieldExpression><![CDATA[$F{no_faktur}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="-15" y="0" width="57" height="10" uuid="4864a67e-3521-49cd-a13d-a763c40b5fc3"/>
+				<reportElement x="-15" y="11" width="57" height="10" uuid="4864a67e-3521-49cd-a13d-a763c40b5fc3"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font fontName="SansSerif" size="7"/>
 					<paragraph spacingBefore="0" spacingAfter="0"/>
@@ -127,7 +129,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 				<text><![CDATA[No Faktur]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-15" y="10" width="38" height="10" uuid="b1f3ef84-2231-4a47-a629-da54d1fd17fb"/>
+				<reportElement x="-15" y="21" width="38" height="10" uuid="b1f3ef84-2231-4a47-a629-da54d1fd17fb"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font fontName="SansSerif" size="7"/>
 					<paragraph spacingBefore="0" spacingAfter="0"/>
@@ -135,7 +137,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 				<text><![CDATA[Telp ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-15" y="20" width="38" height="10" uuid="45050016-2ff8-42e4-9ccb-9c35f5b15a69"/>
+				<reportElement x="-15" y="31" width="38" height="10" uuid="45050016-2ff8-42e4-9ccb-9c35f5b15a69"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font fontName="SansSerif" size="7"/>
 					<paragraph spacingBefore="0" spacingAfter="0"/>
@@ -143,7 +145,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 				<text><![CDATA[Kasir ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-15" y="30" width="57" height="10" uuid="2c532245-6c6a-448e-b5d2-ea3b6211b888"/>
+				<reportElement x="-15" y="41" width="57" height="10" uuid="2c532245-6c6a-448e-b5d2-ea3b6211b888"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font fontName="SansSerif" size="7"/>
 					<paragraph spacingBefore="0" spacingAfter="0"/>
@@ -151,7 +153,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 				<text><![CDATA[Pelanggan]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="30" y="30" width="93" height="10" uuid="bed64922-97f7-4b26-8293-3577a9a972d8"/>
+				<reportElement x="30" y="41" width="120" height="10" uuid="bed64922-97f7-4b26-8293-3577a9a972d8"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font fontName="SansSerif" size="7"/>
 					<paragraph spacingBefore="0" spacingAfter="0"/>
@@ -159,7 +161,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 				<textFieldExpression><![CDATA[$F{nama_pelanggan}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="30" y="20" width="93" height="10" uuid="53b25e32-f4b1-46d1-b49b-9248dd6f73e7"/>
+				<reportElement x="30" y="31" width="120" height="10" uuid="53b25e32-f4b1-46d1-b49b-9248dd6f73e7"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font fontName="SansSerif" size="7"/>
 					<paragraph spacingBefore="0" spacingAfter="0"/>
@@ -167,7 +169,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 				<textFieldExpression><![CDATA[$F{nama_karyawan}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="26" y="10" width="7" height="10" uuid="74465267-564c-484a-8742-5f9bcc07ba4d"/>
+				<reportElement x="26" y="21" width="7" height="10" uuid="74465267-564c-484a-8742-5f9bcc07ba4d"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font fontName="SansSerif" size="7"/>
 					<paragraph spacingBefore="0" spacingAfter="0"/>
@@ -175,7 +177,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="26" y="20" width="7" height="10" uuid="34dce0fd-f395-450f-85cb-d5d7d2dc5c60"/>
+				<reportElement x="26" y="31" width="7" height="10" uuid="34dce0fd-f395-450f-85cb-d5d7d2dc5c60"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font fontName="SansSerif" size="7"/>
 					<paragraph spacingBefore="0" spacingAfter="0"/>
@@ -183,7 +185,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="26" y="0" width="7" height="10" uuid="75d7807e-fc2b-4787-b471-3dbb21e21cb0"/>
+				<reportElement x="26" y="11" width="7" height="10" uuid="75d7807e-fc2b-4787-b471-3dbb21e21cb0"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font fontName="SansSerif" size="7"/>
 					<paragraph spacingBefore="0" spacingAfter="0"/>
@@ -191,7 +193,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="26" y="30" width="7" height="10" uuid="faf09f91-6122-41ca-bb17-0f9c9ce8b111"/>
+				<reportElement x="26" y="41" width="7" height="10" uuid="faf09f91-6122-41ca-bb17-0f9c9ce8b111"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
 					<font fontName="SansSerif" size="7"/>
 					<paragraph spacingBefore="0" spacingAfter="0"/>
@@ -199,7 +201,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="52" y="41" width="18" height="12" uuid="5beb562e-9c7d-4496-b64b-00dfdc217573">
+				<reportElement x="52" y="52" width="18" height="12" uuid="5beb562e-9c7d-4496-b64b-00dfdc217573">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dafe5fa4-030c-4edd-999f-e4e942d9bc35"/>
 				</reportElement>
 				<box>
@@ -215,7 +217,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 				<text><![CDATA[Qty]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="70" y="41" width="36" height="12" uuid="ba9bb87a-bc7a-4c94-9797-172c71b030ec">
+				<reportElement x="70" y="52" width="36" height="12" uuid="ba9bb87a-bc7a-4c94-9797-172c71b030ec">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="10c7db4c-ecd0-4e62-9b36-b04c2f51a0f5"/>
 				</reportElement>
 				<box>
@@ -231,7 +233,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 				<text><![CDATA[Harga]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="106" y="41" width="44" height="12" uuid="899336f2-6828-40e5-b587-4ce06fcb0736">
+				<reportElement x="106" y="52" width="44" height="12" uuid="899336f2-6828-40e5-b587-4ce06fcb0736">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="45d5ff60-c176-4ad2-a1cf-fb43ad5775cb"/>
 				</reportElement>
 				<box>
@@ -247,7 +249,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 				<text><![CDATA[Total]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-15" y="41" width="67" height="12" uuid="dcb17de1-4a49-4964-85a3-3ef2a7aab744">
+				<reportElement x="-15" y="52" width="67" height="12" uuid="dcb17de1-4a49-4964-85a3-3ef2a7aab744">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dafe5fa4-030c-4edd-999f-e4e942d9bc35"/>
 				</reportElement>
 				<box>
@@ -266,7 +268,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 	</title>
 	<detail>
 		<band height="12" splitType="Stretch">
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="-15" y="0" width="67" height="12" uuid="7f338c04-3d18-41a0-8c48-93964ba65a66">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1f71eed0-b879-4835-b54a-65de6dd7cd07"/>
 				</reportElement>
@@ -274,7 +276,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 					<font fontName="SansSerif" size="7"/>
 					<paragraph lineSpacing="Single" spacingBefore="3"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nama_barang}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nama_barang} + " ("+$F{satuan}+")"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="52" y="0" width="18" height="12" uuid="83eed99e-f2bb-43fd-9c9a-0ed5e9fd88df">
@@ -322,7 +324,7 @@ where tb_transaksi.no_faktur = $P{paramNoFaktur}]]>
 				<textFieldExpression><![CDATA[$F{total_bayar}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="-15" y="40" width="165" height="10" uuid="b19f29c2-1a13-4565-a17d-2ab86940a4da"/>
+				<reportElement x="-15" y="40" width="155" height="10" uuid="b19f29c2-1a13-4565-a17d-2ab86940a4da"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="7"/>
 					<paragraph lineSpacing="Single"/>

@@ -686,7 +686,7 @@ public class FReturnPenjualan {
 				if (table.getValueAt(i, 6).toString().equals("Layak dijual")) {
 					query = "update tb_detail_barang set stok = stok + ? where id_barang = ? and satuan = ?";
 					ps = db.con.prepareStatement(query);
-					ps.setInt(1, Integer.parseInt(table.getValueAt(i, 4).toString()));
+					ps.setDouble(1, Double.parseDouble(table.getValueAt(i, 4).toString()));
 					ps.setString(2, table.getValueAt(i, 0).toString());
 					ps.setString(3, table.getValueAt(i, 2).toString());
 					ps.execute();

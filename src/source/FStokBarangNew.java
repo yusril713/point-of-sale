@@ -502,7 +502,8 @@ public class FStokBarangNew {
 		btnListStokBrg.setBackground(new Color(30, 144, 255));
 		btnListStokBrg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FStokKurang.main(null);
+//				FStokKurang.main(null);
+				FListStokBarang.main(null);
 				window.frame.setEnabled(false);
 			}
 		});

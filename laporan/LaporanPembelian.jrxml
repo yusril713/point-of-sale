@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2021-03-03T08:45:22 -->
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LaporanPembelian" pageWidth="595" pageHeight="800" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b9b6760c-2f81-47f2-827b-7118e0f2cd92">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<parameter name="paramMulai" class="java.lang.String"/>
-	<parameter name="paramSampai" class="java.lang.String"/>
+	<parameter name="paramMulai" class="java.sql.Date"/>
+	<parameter name="paramSampai" class="java.sql.Date"/>
 	<queryString>
 		<![CDATA[select tb_pembelian.*, 
 date_format(tb_pembelian.tanggal,'%d %M %Y')as tgl,
@@ -19,20 +18,60 @@ inner join tb_supplier on tb_pembelian.supplier = tb_supplier.id
 where tb_pembelian.tanggal between $P{paramMulai} and $P{paramSampai}
 order by tanggal, tb_pembelian.no_faktur desc]]>
 	</queryString>
-	<field name="no_faktur" class="java.lang.String"/>
-	<field name="sub_total" class="java.lang.Integer"/>
-	<field name="supplier" class="java.lang.String"/>
-	<field name="tanggal" class="java.sql.Date"/>
-	<field name="jatuh_tempo" class="java.sql.Date"/>
-	<field name="tgl" class="java.lang.String"/>
-	<field name="COLUMN_7" class="java.lang.String"/>
-	<field name="id_barang" class="java.lang.String"/>
-	<field name="satuan" class="java.lang.String"/>
-	<field name="harga_beli" class="java.lang.Integer"/>
-	<field name="qty" class="java.lang.Double"/>
-	<field name="nama" class="java.lang.String"/>
-	<field name="total" class="java.lang.Double"/>
-	<field name="nama_sup" class="java.lang.String"/>
+	<field name="no_faktur" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="no_faktur"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pembelian"/>
+	</field>
+	<field name="sub_total" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="sub_total"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pembelian"/>
+	</field>
+	<field name="supplier" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="supplier"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pembelian"/>
+	</field>
+	<field name="tanggal" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="tanggal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pembelian"/>
+	</field>
+	<field name="jatuh_tempo" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="jatuh_tempo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_pembelian"/>
+	</field>
+	<field name="tgl" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tgl"/>
+	</field>
+	<field name="COLUMN_7" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="no_faktur"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_detail_pembelian"/>
+	</field>
+	<field name="id_barang" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="id_barang"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_detail_pembelian"/>
+	</field>
+	<field name="satuan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="satuan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_detail_pembelian"/>
+	</field>
+	<field name="harga_beli" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="harga_beli"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_detail_pembelian"/>
+	</field>
+	<field name="qty" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="qty"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_detail_pembelian"/>
+	</field>
+	<field name="nama" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nama"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_barang"/>
+	</field>
+	<field name="total" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="total"/>
+	</field>
+	<field name="nama_sup" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nama_sup"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tb_supplier"/>
+	</field>
 	<variable name="Variable_1" class="java.lang.Integer" incrementType="Group" incrementGroup="Group1" calculation="Sum">
 		<variableExpression><![CDATA[$F{sub_total}]]></variableExpression>
 	</variable>

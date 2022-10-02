@@ -1,5 +1,6 @@
 package source;
 
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -16,12 +17,16 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTable;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
@@ -33,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.SpringLayout;
 
 public class FRiwayatTransaksi {
 
@@ -55,6 +61,7 @@ public class FRiwayatTransaksi {
 	private DateFormat currentYear;
 	private DateFormat currentMonth;
 	private Calendar cal;
+	private SpringLayout springLayout;
 
 	/**
 	 * Launch the application.
@@ -105,12 +112,6 @@ public class FRiwayatTransaksi {
 		frame.setLocationRelativeTo(null);
 		frame.setExtendedState(frame.getExtendedState()|JFrame.MAXIMIZED_BOTH);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{30, 0, 0, 202, 174, 0, 400, 0, 0, 0, 0, 0, 88, 0, 30, 0};
-		gridBagLayout.rowHeights = new int[]{30, 0, 0, 0, 0, 0, 0, 30, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		frame.getContentPane().setLayout(gridBagLayout);
 		
 		comboBox = new JComboBox<String>();
 		comboBox.addActionListener(new ActionListener() {
@@ -118,19 +119,16 @@ public class FRiwayatTransaksi {
 				if (comboBox.getSelectedIndex() >= 0) {
 					if (comboBox.getSelectedIndex() == 0) {
 						Semua();
-						searchField.setVisible(false);
 						TampilByFilter("hari_ini");
 					} else if (comboBox.getSelectedIndex() == 1) {
 						Semua();
-						searchField.setVisible(false);
 						TampilByFilter("bulan_ini");
 					} else if (comboBox.getSelectedIndex() == 2) {
 						Semua();
-						searchField.setVisible(false);
 						TampilByFilter("tahun_ini");
 					} else if (comboBox.getSelectedIndex() == 3) {
-						Semua();
-						TampilSemua("");
+						BerdasarPencarian();
+//						TampilSemua("");
 					} else if (comboBox.getSelectedIndex() == 4) {
 						BerdasarTanggal();
 					} else {
@@ -139,47 +137,43 @@ public class FRiwayatTransaksi {
 				}
 			}
 		});
-		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Hari ini", "Bulan ini", "Tahun ini", "Semua", "Berdasarkan Tanggal", "Berdasarkan No Faktur"}));
+		springLayout = new SpringLayout();
+		springLayout.putConstraint(SpringLayout.NORTH, comboBox, 30, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, comboBox, 30, SpringLayout.WEST, frame.getContentPane());
+		frame.getContentPane().setLayout(springLayout);
+		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Hari ini", "Bulan ini", "Tahun ini", "Berdasarkan Pencarian", "Berdasarkan Tanggal", "Berdasarkan No Faktur"}));
 		comboBox.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 1;
-		gbc_comboBox.gridy = 1;
-		frame.getContentPane().add(comboBox, gbc_comboBox);
+		frame.getContentPane().add(comboBox);
 		
 		datePicker = new JXDatePicker();
+		springLayout.putConstraint(SpringLayout.NORTH, datePicker, 5, SpringLayout.SOUTH, comboBox);
+		springLayout.putConstraint(SpringLayout.WEST, datePicker, 30, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, datePicker, 231, SpringLayout.WEST, frame.getContentPane());
 		datePicker.getEditor().setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		datePicker.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		datePicker.setVisible(false);
-		GridBagConstraints gbc_datePicker = new GridBagConstraints();
-		gbc_datePicker.insets = new Insets(0, 0, 5, 5);
-		gbc_datePicker.fill = GridBagConstraints.BOTH;
-		gbc_datePicker.gridx = 1;
-		gbc_datePicker.gridy = 2;
-		frame.getContentPane().add(datePicker, gbc_datePicker);
+		frame.getContentPane().add(datePicker);
 		
 		lblSd = new JLabel("s/d");
+		springLayout.putConstraint(SpringLayout.NORTH, lblSd, 67, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, lblSd, 5, SpringLayout.EAST, datePicker);
 		lblSd.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		lblSd.setVisible(false);
-		GridBagConstraints gbc_lblSd = new GridBagConstraints();
-		gbc_lblSd.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSd.gridx = 2;
-		gbc_lblSd.gridy = 2;
-		frame.getContentPane().add(lblSd, gbc_lblSd);
+		frame.getContentPane().add(lblSd);
 		
 		datePicker_1 = new JXDatePicker();
+		springLayout.putConstraint(SpringLayout.NORTH, datePicker_1, 63, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, datePicker_1, 5, SpringLayout.EAST, lblSd);
+		springLayout.putConstraint(SpringLayout.EAST, datePicker_1, 460, SpringLayout.WEST, frame.getContentPane());
 		datePicker_1.getEditor().setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		datePicker_1.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		datePicker_1.setVisible(false);
-		GridBagConstraints gbc_datePicker_1 = new GridBagConstraints();
-		gbc_datePicker_1.insets = new Insets(0, 0, 5, 5);
-		gbc_datePicker_1.fill = GridBagConstraints.BOTH;
-		gbc_datePicker_1.gridx = 3;
-		gbc_datePicker_1.gridy = 2;
-		frame.getContentPane().add(datePicker_1, gbc_datePicker_1);
+		frame.getContentPane().add(datePicker_1);
 		
 		txtNoFaktur = new JTextField();
+		springLayout.putConstraint(SpringLayout.NORTH, txtNoFaktur, 5, SpringLayout.SOUTH, comboBox);
+		springLayout.putConstraint(SpringLayout.WEST, txtNoFaktur, 30, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, txtNoFaktur, 231, SpringLayout.WEST, frame.getContentPane());
 		txtNoFaktur.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		txtNoFaktur.setText("no faktur");
 		txtNoFaktur.setVisible(false);
@@ -197,11 +191,14 @@ public class FRiwayatTransaksi {
 				EventChanged();
 			}
 			public void EventChanged() {
-				TampilBerdasarFaktur(txtNoFaktur.getText());
+				if (!txtNoFaktur.getText().equals(""))
+					TampilBerdasarFaktur(txtNoFaktur.getText());
 			}
 		});
 		
 		btnOk = new JButton("Tampil");
+		springLayout.putConstraint(SpringLayout.NORTH, btnOk, 64, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, btnOk, 5, SpringLayout.EAST, datePicker_1);
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (datePicker.getDate() == null || datePicker_1.getDate() == null) {
@@ -211,20 +208,14 @@ public class FRiwayatTransaksi {
 			}
 		});
 		btnOk.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		GridBagConstraints gbc_btnOk = new GridBagConstraints();
-		gbc_btnOk.insets = new Insets(0, 0, 5, 5);
-		gbc_btnOk.gridx = 4;
-		gbc_btnOk.gridy = 2;
-		frame.getContentPane().add(btnOk, gbc_btnOk);
-		GridBagConstraints gbc_txtNoFaktur = new GridBagConstraints();
-		gbc_txtNoFaktur.insets = new Insets(0, 0, 5, 5);
-		gbc_txtNoFaktur.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtNoFaktur.gridx = 1;
-		gbc_txtNoFaktur.gridy = 3;
-		frame.getContentPane().add(txtNoFaktur, gbc_txtNoFaktur);
+		frame.getContentPane().add(btnOk);
+		frame.getContentPane().add(txtNoFaktur);
 		txtNoFaktur.setColumns(10);
 		
 		searchField = new JXSearchField();
+		springLayout.putConstraint(SpringLayout.NORTH, searchField, 5, SpringLayout.SOUTH, comboBox);
+		springLayout.putConstraint(SpringLayout.WEST, searchField, 30, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, searchField, 231, SpringLayout.WEST, frame.getContentPane());
 		searchField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		searchField.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
@@ -240,24 +231,18 @@ public class FRiwayatTransaksi {
 				EventChanged();
 			}
 			public void EventChanged() {
-				TampilSemua(searchField.getText());
+				if (!searchField.getText().equals(""))
+					TampilSemua(searchField.getText());
 			}
 		});
-		GridBagConstraints gbc_searchField = new GridBagConstraints();
-		gbc_searchField.insets = new Insets(0, 0, 5, 5);
-		gbc_searchField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_searchField.gridx = 1;
-		gbc_searchField.gridy = 4;
-		frame.getContentPane().add(searchField, gbc_searchField);
+		frame.getContentPane().add(searchField);
 		
 		scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
-		gbc_scrollPane.gridwidth = 4;
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 1;
-		gbc_scrollPane.gridy = 5;
-		frame.getContentPane().add(scrollPane, gbc_scrollPane);
+		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 5, SpringLayout.SOUTH, datePicker_1);
+		springLayout.putConstraint(SpringLayout.WEST, scrollPane, 30, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, -20, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, scrollPane, -(frame.getWidth()/2), SpringLayout.EAST, frame.getContentPane());
+		frame.getContentPane().add(scrollPane);
 		
 		table = new JXTable() 
 //		{ 
@@ -281,9 +266,9 @@ public class FRiwayatTransaksi {
 //					if (rs.next()) { count = rs.getInt("count"); 
 //					}
 //			  
-//					System.out.println(getModel().getValueAt(row, 0).toString() + " Jumlah data: " + count);
+////					System.out.println(getModel().getValueAt(row, 0).toString() + " Jumlah data: " + count);
 //					if (count == 0) { 
-//						comp.setBackground(Color.red); 
+////						comp.setBackground(Color.red); 
 //					} 
 //					db.con.close(); 
 //				}
@@ -306,19 +291,19 @@ public class FRiwayatTransaksi {
 		scrollPane.setViewportView(table);
 		
 		scrollPane_1 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.gridwidth = 9;
-		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 5);
-		gbc_scrollPane_1.gridx = 5;
-		gbc_scrollPane_1.gridy = 5;
-		frame.getContentPane().add(scrollPane_1, gbc_scrollPane_1);
+		springLayout.putConstraint(SpringLayout.NORTH, scrollPane_1, 0, SpringLayout.NORTH, scrollPane);
+		springLayout.putConstraint(SpringLayout.WEST, scrollPane_1, 5, SpringLayout.EAST, scrollPane);
+		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane_1, -55, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, scrollPane_1, -20, SpringLayout.EAST, frame.getContentPane());
+		frame.getContentPane().add(scrollPane_1);
 		
 		table_1 = new JTable();
 		table_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		scrollPane_1.setViewportView(table_1);
 		
 		btnHapus = new JButton("Hapus");
+		springLayout.putConstraint(SpringLayout.SOUTH, btnHapus, -20, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, btnHapus, 0, SpringLayout.EAST, scrollPane_1);
 		btnHapus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) { 
 				if (table.getSelectedRow() >= 0) {
@@ -330,40 +315,45 @@ public class FRiwayatTransaksi {
 			}
 		});
 		btnHapus.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		GridBagConstraints gbc_btnHapus = new GridBagConstraints();
-		gbc_btnHapus.insets = new Insets(0, 0, 5, 5);
-		gbc_btnHapus.gridx = 13;
-		gbc_btnHapus.gridy = 6;
-		frame.getContentPane().add(btnHapus, gbc_btnHapus);
+		frame.getContentPane().add(btnHapus);
 	}
 
 	private void BerdasarTanggal() {
 		datePicker.setVisible(true);
 		datePicker_1.setVisible(true);
-		searchField.setVisible(false);
 		lblSd.setVisible(true);
-		txtNoFaktur.setVisible(false);
 		btnOk.setVisible(true);
+		txtNoFaktur.setVisible(false);
+		searchField.setVisible(false);
+	}
+	
+	private void BerdasarPencarian() {
+		datePicker.setVisible(false);
+		lblSd.setVisible(false);
+		datePicker_1.setVisible(false);
+		btnOk.setVisible(false);
+		txtNoFaktur.setVisible(false);
+		searchField.setVisible(true);
 	}
 	
 	private void BerdasarFaktur() {
 		datePicker.setVisible(false);
 		datePicker_1.setVisible(false);
-		searchField.setVisible(false);
 		lblSd.setVisible(false);
+		btnOk.setVisible(false);
 		txtNoFaktur.setVisible(true);
+		searchField.setVisible(false);
 		txtNoFaktur.setText("");
 		txtNoFaktur.requestFocus();
-		btnOk.setVisible(false);
 	}
 	
 	private void Semua() {
 		datePicker.setVisible(false);
-		datePicker_1.setVisible(false);
-		searchField.setVisible(true);
 		lblSd.setVisible(false);
-		txtNoFaktur.setVisible(false);
+		datePicker_1.setVisible(false);
 		btnOk.setVisible(false);
+		txtNoFaktur.setVisible(false);
+		searchField.setVisible(false);
 	}
 	
 	private void TampilByFilter(String filter) {
@@ -378,7 +368,6 @@ public class FRiwayatTransaksi {
 		model.addColumn("Tgl Transaksi");
 		model.addColumn("Karyawan");
 		model.addColumn("Subtotal");
-		System.out.println("Filter by: " + currentMonth.format(cal.getTime()));
 		db.con();
 		try {
 			String query = null;
@@ -726,6 +715,16 @@ public class FRiwayatTransaksi {
 				ps = db.con.prepareStatement(query);
 				ps.setString(1, noFaktur);
 				ps.execute();
+				
+				query = "delete from tb_do where no_faktur = ?";
+				ps = db.con.prepareStatement(query);
+				ps.setString(1, noFaktur);
+				ps.execute();
+				
+				query = "delete from tb_rincian_do where no_faktur = ?";
+				ps = db.con.prepareStatement(query);
+				ps.setString(1, noFaktur);
+				ps.execute();
 			} else {
 				query = "delete from tb_transaksi_kredit where no_faktur = ?";
 				PreparedStatement ps = db.con.prepareStatement(query);
@@ -746,6 +745,17 @@ public class FRiwayatTransaksi {
 				ps = db.con.prepareStatement(query);
 				ps.setString(1, noFaktur);
 				ps.execute();
+				
+				query = "delete from tb_do where no_faktur = ?";
+				ps = db.con.prepareStatement(query);
+				ps.setString(1, noFaktur);
+				ps.execute();
+				
+				query = "delete from tb_rincian_do where no_faktur = ?";
+				ps = db.con.prepareStatement(query);
+				ps.setString(1, noFaktur);
+				ps.execute();
+				
 			}
 			
 			db.con.close();

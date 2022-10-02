@@ -29,6 +29,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import org.jdesktop.swingx.JXDatePicker;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
+
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.swing.JRViewer;
@@ -88,11 +90,17 @@ public class FTransaksi {
 	private JLabel lblNewLabel_7;
 	private SwingWorker<String, Object> sw;
 	private JButton btnRiwayatTransaksi;
+	private JButton btnHapusText;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(FlatIntelliJLaf.class.getName());
+		} catch(Exception e) {
+			System.out.println("Error setting native LAF: " + e);
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -123,6 +131,12 @@ public class FTransaksi {
 				db = new Database();
 				DataBaru();
 				AturTabel();
+
+				btnRiwayatTransaksi.setVisible(false);
+				if (FMain.level.equals("admin"))
+					btnRiwayatTransaksi.setVisible(true);
+				else
+					btnRiwayatTransaksi.setVisible(false);
 
 				scrollPane_1.setVisible(false);
 				if (!transkaksiKredit) {
@@ -162,9 +176,9 @@ public class FTransaksi {
 		frame.setUndecorated(true);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{114, 226, 40, 0, 231, 0, 0, 219, 120, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 30, 0, 0, 180, 280, 39, 37, 32, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{114, 226, 40, 0, 0, 231, 0, 0, 219, 120, 0, 0};
+		gridBagLayout.rowHeights = new int[]{54, 35, 30, 30, 30, 180, 280, 39, 37, 32, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
@@ -178,11 +192,12 @@ public class FTransaksi {
 		frame.getContentPane().add(lblNewLabel, gbc_lblNewLabel);
 		
 		txtNoFaktur = new JTextField();
+		txtNoFaktur.setEditable(false);
 		txtNoFaktur.setBackground(UIManager.getColor("Button.light"));
 		txtNoFaktur.setBorder(null);
 		txtNoFaktur.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GridBagConstraints gbc_txtNoFaktur = new GridBagConstraints();
-		gbc_txtNoFaktur.gridwidth = 2;
+		gbc_txtNoFaktur.gridwidth = 3;
 		gbc_txtNoFaktur.insets = new Insets(20, 20, 5, 5);
 		gbc_txtNoFaktur.fill = GridBagConstraints.BOTH;
 		gbc_txtNoFaktur.gridx = 1;
@@ -195,18 +210,19 @@ public class FTransaksi {
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
 		gbc_lblNewLabel_4.fill = GridBagConstraints.BOTH;
 		gbc_lblNewLabel_4.insets = new Insets(20, 40, 5, 5);
-		gbc_lblNewLabel_4.gridx = 3;
+		gbc_lblNewLabel_4.gridx = 4;
 		gbc_lblNewLabel_4.gridy = 0;
 		frame.getContentPane().add(lblNewLabel_4, gbc_lblNewLabel_4);
 		
 		txtIdKaryawan = new JTextField();
+		txtIdKaryawan.setEditable(false);
 		txtIdKaryawan.setBackground(UIManager.getColor("Button.light"));
 		txtIdKaryawan.setBorder(null);
 		txtIdKaryawan.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		GridBagConstraints gbc_txtIdKaryawan = new GridBagConstraints();
 		gbc_txtIdKaryawan.insets = new Insets(20, 20, 5, 5);
 		gbc_txtIdKaryawan.fill = GridBagConstraints.BOTH;
-		gbc_txtIdKaryawan.gridx = 4;
+		gbc_txtIdKaryawan.gridx = 5;
 		gbc_txtIdKaryawan.gridy = 0;
 		frame.getContentPane().add(txtIdKaryawan, gbc_txtIdKaryawan);
 		txtIdKaryawan.setColumns(10);
@@ -221,12 +237,13 @@ public class FTransaksi {
 		frame.getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
 		txtTanggal = new JTextField();
+		txtTanggal.setEditable(false);
 		txtTanggal.setBackground(UIManager.getColor("Button.light"));
 		txtTanggal.setBorder(null);
 		txtTanggal.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtTanggal.setColumns(10);
 		GridBagConstraints gbc_txtTanggal = new GridBagConstraints();
-		gbc_txtTanggal.gridwidth = 2;
+		gbc_txtTanggal.gridwidth = 3;
 		gbc_txtTanggal.insets = new Insets(0, 20, 5, 5);
 		gbc_txtTanggal.fill = GridBagConstraints.BOTH;
 		gbc_txtTanggal.gridx = 1;
@@ -238,16 +255,17 @@ public class FTransaksi {
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
 		gbc_lblNewLabel_5.fill = GridBagConstraints.BOTH;
 		gbc_lblNewLabel_5.insets = new Insets(0, 40, 5, 5);
-		gbc_lblNewLabel_5.gridx = 3;
+		gbc_lblNewLabel_5.gridx = 4;
 		gbc_lblNewLabel_5.gridy = 1;
 		frame.getContentPane().add(lblNewLabel_5, gbc_lblNewLabel_5);
 		
 		datePicker = new JXDatePicker();
+		datePicker.getEditor().setEditable(false);
 		datePicker.getEditor().setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_datePicker = new GridBagConstraints();
 		gbc_datePicker.fill = GridBagConstraints.BOTH;
 		gbc_datePicker.insets = new Insets(0, 20, 5, 5);
-		gbc_datePicker.gridx = 4;
+		gbc_datePicker.gridx = 5;
 		gbc_datePicker.gridy = 1;
 		frame.getContentPane().add(datePicker, gbc_datePicker);
 		
@@ -276,7 +294,7 @@ public class FTransaksi {
 		GridBagConstraints gbc_btnBatal = new GridBagConstraints();
 		gbc_btnBatal.fill = GridBagConstraints.BOTH;
 		gbc_btnBatal.insets = new Insets(0, 0, 5, 20);
-		gbc_btnBatal.gridx = 9;
+		gbc_btnBatal.gridx = 10;
 		gbc_btnBatal.gridy = 1;
 		frame.getContentPane().add(btnBatal, gbc_btnBatal);
 		
@@ -290,6 +308,7 @@ public class FTransaksi {
 		frame.getContentPane().add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
 		txtKodePelanggan = new JTextField();
+		txtKodePelanggan.setEditable(false);
 		txtKodePelanggan.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -303,7 +322,7 @@ public class FTransaksi {
 		txtKodePelanggan.setColumns(10);
 		GridBagConstraints gbc_txtKodePelanggan = new GridBagConstraints();
 		gbc_txtKodePelanggan.insets = new Insets(0, 20, 5, 5);
-		gbc_txtKodePelanggan.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtKodePelanggan.fill = GridBagConstraints.BOTH;
 		gbc_txtKodePelanggan.gridx = 1;
 		gbc_txtKodePelanggan.gridy = 2;
 		frame.getContentPane().add(txtKodePelanggan, gbc_txtKodePelanggan);
@@ -362,9 +381,8 @@ public class FTransaksi {
 									Integer.parseInt(txtSubTotal.getText().replace(",", "")))) {
 								SimpanTransaksi();
 								SimpanDetailTransaksi();
-								Cetak();
 								UpdateStokBarang();
-								SimpanIndeksTransaksi();
+//								SimpanIndeksTransaksi();
 								while (model.getRowCount() > 0) 
 									model.removeRow(0);
 								DataBaru();
@@ -376,9 +394,9 @@ public class FTransaksi {
 								SimpanTransaksiKredit();
 								SimpanDetailTransaksiKredit();
 								SimpanHutang();
-								CetakKredit();
+//								CetakKredit();
 								UpdateStokBarang();
-								SimpanIndeksTransaksi();
+//								SimpanIndeksTransaksi();
 								while (model.getRowCount() > 0) 
 									model.removeRow(0);
 								DataBaru();
@@ -390,12 +408,31 @@ public class FTransaksi {
 				}
 			}
 		});
+		
+		btnHapusText = new JButton("");
+		btnHapusText.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtKodePelanggan.setText("");
+				txtNamaPelanggan.setText("");
+			}
+		});
+		btnHapusText.setIcon(new ImageIcon(FTransaksi.class.getResource("/img/Tutup.png")));
+		btnHapusText.setOpaque(true);
+		btnHapusText.setForeground(Color.LIGHT_GRAY);
+		btnHapusText.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnHapusText.setFocusPainted(false);
+		btnHapusText.setContentAreaFilled(false);
+		GridBagConstraints gbc_btnHapusText = new GridBagConstraints();
+		gbc_btnHapusText.insets = new Insets(0, 0, 5, 5);
+		gbc_btnHapusText.gridx = 3;
+		gbc_btnHapusText.gridy = 2;
+		frame.getContentPane().add(btnHapusText, gbc_btnHapusText);
 		btnSimpan.setIcon(new ImageIcon(FTransaksi.class.getResource("/img/Simpan.png")));
 		btnSimpan.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_btnSimpan = new GridBagConstraints();
 		gbc_btnSimpan.fill = GridBagConstraints.BOTH;
 		gbc_btnSimpan.insets = new Insets(0, 0, 5, 20);
-		gbc_btnSimpan.gridx = 9;
+		gbc_btnSimpan.gridx = 10;
 		gbc_btnSimpan.gridy = 2;
 		frame.getContentPane().add(btnSimpan, gbc_btnSimpan);
 		
@@ -409,12 +446,13 @@ public class FTransaksi {
 		frame.getContentPane().add(lblNewLabel_3, gbc_lblNewLabel_3);
 		
 		txtNamaPelanggan = new JTextField();
+		txtNamaPelanggan.setEditable(false);
 		txtNamaPelanggan.setBackground(UIManager.getColor("Button.light"));
 		txtNamaPelanggan.setBorder(null);
 		txtNamaPelanggan.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtNamaPelanggan.setColumns(10);
 		GridBagConstraints gbc_txtNamaPelanggan = new GridBagConstraints();
-		gbc_txtNamaPelanggan.gridwidth = 2;
+		gbc_txtNamaPelanggan.gridwidth = 3;
 		gbc_txtNamaPelanggan.insets = new Insets(0, 20, 5, 5);
 		gbc_txtNamaPelanggan.fill = GridBagConstraints.BOTH;
 		gbc_txtNamaPelanggan.gridx = 1;
@@ -426,21 +464,27 @@ public class FTransaksi {
 		txtSubTotal.setBorder(null);
 		txtSubTotal.setEditable(false);
 		txtSubTotal.setBackground(SystemColor.text);
-		txtSubTotal.setFont(new Font("Tahoma", Font.BOLD, 34));
+		txtSubTotal.setFont(new Font("Tahoma", Font.BOLD, 42));
 		txtSubTotal.setText("SUB TOTAL");
 		GridBagConstraints gbc_txtSubTotal = new GridBagConstraints();
 		gbc_txtSubTotal.gridwidth = 3;
 		gbc_txtSubTotal.gridheight = 2;
 		gbc_txtSubTotal.insets = new Insets(0, 0, 5, 20);
 		gbc_txtSubTotal.fill = GridBagConstraints.BOTH;
-		gbc_txtSubTotal.gridx = 7;
+		gbc_txtSubTotal.gridx = 8;
 		gbc_txtSubTotal.gridy = 3;
 		frame.getContentPane().add(txtSubTotal, gbc_txtSubTotal);
 		txtSubTotal.setColumns(10);
 		
 		comboBox = new JComboBox<String>();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (comboBox.getSelectedIndex() >= 0)
+					SimpanIndeksTransaksi();
+			}
+		});
 		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Kode Barang", "Nama Barang"}));
-		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 20, 5, 5);
 		gbc_comboBox.fill = GridBagConstraints.BOTH;
@@ -547,7 +591,7 @@ public class FTransaksi {
 		txtKodeNama.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		txtKodeNama.setColumns(10);
 		GridBagConstraints gbc_txtKodeNama = new GridBagConstraints();
-		gbc_txtKodeNama.gridwidth = 2;
+		gbc_txtKodeNama.gridwidth = 3;
 		gbc_txtKodeNama.insets = new Insets(0, 20, 5, 5);
 		gbc_txtKodeNama.fill = GridBagConstraints.BOTH;
 		gbc_txtKodeNama.gridx = 1;
@@ -608,7 +652,7 @@ public class FTransaksi {
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridheight = 2;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridwidth = 10;
+		gbc_scrollPane.gridwidth = 11;
 		gbc_scrollPane.insets = new Insets(0, 20, 5, 20);
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 5;
@@ -652,31 +696,20 @@ public class FTransaksi {
 		gbc_btnHapus.gridy = 7;
 		frame.getContentPane().add(btnHapus, gbc_btnHapus);
 		
-		lblNewLabel_6 = new JLabel("KEMBALI");
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
-		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_6.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_6.gridx = 7;
-		gbc_lblNewLabel_6.gridy = 7;
-		frame.getContentPane().add(lblNewLabel_6, gbc_lblNewLabel_6);
-		
-		txtKembali = new JTextField();
-		txtKembali.setHorizontalAlignment(SwingConstants.RIGHT);
-		txtKembali.setEditable(false);
-		txtKembali.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		txtKembali.setColumns(10);
-		txtKembali.setBorder(null);
-		txtKembali.setBackground(SystemColor.controlHighlight);
-		GridBagConstraints gbc_txtKembali = new GridBagConstraints();
-		gbc_txtKembali.gridwidth = 2;
-		gbc_txtKembali.insets = new Insets(0, 0, 5, 20);
-		gbc_txtKembali.fill = GridBagConstraints.BOTH;
-		gbc_txtKembali.gridx = 8;
-		
-		
-		gbc_txtKembali.gridy = 7;
-		frame.getContentPane().add(txtKembali, gbc_txtKembali);
+		btnRiwayatTransaksi = new JButton("Riwayat Transaksi");
+		btnRiwayatTransaksi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (transkaksiKredit) {
+					FRiwayatTransaksi.main(null);
+					FRiwayatTransaksi.transaksiKredit = true;
+					window.frame.setEnabled(false);
+				} else {
+					FRiwayatTransaksi.main(null);
+					FRiwayatTransaksi.transaksiKredit = false;
+					window.frame.setEnabled(false);
+				}
+			}
+		});
 		
 		txtJumlahBayar = new JTextField();
 		txtJumlahBayar.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -716,9 +749,9 @@ public class FTransaksi {
 										Integer.parseInt(txtSubTotal.getText().replace(",", "")))) {
 									SimpanTransaksi();
 									SimpanDetailTransaksi();
-									Cetak();
+//									Cetak();
 									UpdateStokBarang();
-									SimpanIndeksTransaksi();
+//									SimpanIndeksTransaksi();
 									while (model.getRowCount() > 0) 
 										model.removeRow(0);
 									DataBaru();
@@ -730,9 +763,9 @@ public class FTransaksi {
 									SimpanTransaksiKredit();
 									SimpanDetailTransaksiKredit();
 									SimpanHutang();
-									CetakKredit();
+//									CetakKredit();
 									UpdateStokBarang();
-									SimpanIndeksTransaksi();
+//									SimpanIndeksTransaksi();
 									while (model.getRowCount() > 0) 
 										model.removeRow(0);
 									DataBaru();
@@ -773,20 +806,25 @@ public class FTransaksi {
 			}
 		});
 		
-		btnRiwayatTransaksi = new JButton("Riwayat Transaksi");
-		btnRiwayatTransaksi.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (transkaksiKredit) {
-					FRiwayatTransaksi.main(null);
-					FRiwayatTransaksi.transaksiKredit = true;
-					window.frame.setEnabled(false);
-				} else {
-					FRiwayatTransaksi.main(null);
-					FRiwayatTransaksi.transaksiKredit = false;
-					window.frame.setEnabled(false);
-				}
-			}
-		});
+		lblNewLabel_7 = new JLabel("JUMLAH BAYAR");
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
+		gbc_lblNewLabel_7.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_7.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_7.gridx = 8;
+		gbc_lblNewLabel_7.gridy = 7;
+		frame.getContentPane().add(lblNewLabel_7, gbc_lblNewLabel_7);
+		txtJumlahBayar.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtJumlahBayar.setColumns(10);
+		txtJumlahBayar.setBorder(null);
+		txtJumlahBayar.setBackground(SystemColor.controlHighlight);
+		GridBagConstraints gbc_txtJumlahBayar = new GridBagConstraints();
+		gbc_txtJumlahBayar.gridwidth = 2;
+		gbc_txtJumlahBayar.insets = new Insets(0, 0, 5, 20);
+		gbc_txtJumlahBayar.fill = GridBagConstraints.BOTH;
+		gbc_txtJumlahBayar.gridx = 9;
+		gbc_txtJumlahBayar.gridy = 7;
+		frame.getContentPane().add(txtJumlahBayar, gbc_txtJumlahBayar);
 		btnRiwayatTransaksi.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		GridBagConstraints gbc_btnRiwayatTransaksi = new GridBagConstraints();
 		gbc_btnRiwayatTransaksi.fill = GridBagConstraints.BOTH;
@@ -795,25 +833,31 @@ public class FTransaksi {
 		gbc_btnRiwayatTransaksi.gridy = 8;
 		frame.getContentPane().add(btnRiwayatTransaksi, gbc_btnRiwayatTransaksi);
 		
-		lblNewLabel_7 = new JLabel("JUMLAH BAYAR");
-		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
-		gbc_lblNewLabel_7.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_7.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_7.gridx = 7;
-		gbc_lblNewLabel_7.gridy = 8;
-		frame.getContentPane().add(lblNewLabel_7, gbc_lblNewLabel_7);
-		txtJumlahBayar.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		txtJumlahBayar.setColumns(10);
-		txtJumlahBayar.setBorder(null);
-		txtJumlahBayar.setBackground(SystemColor.controlHighlight);
-		GridBagConstraints gbc_txtJumlahBayar = new GridBagConstraints();
-		gbc_txtJumlahBayar.gridwidth = 2;
-		gbc_txtJumlahBayar.insets = new Insets(0, 0, 5, 20);
-		gbc_txtJumlahBayar.fill = GridBagConstraints.BOTH;
-		gbc_txtJumlahBayar.gridx = 8;
-		gbc_txtJumlahBayar.gridy = 8;
-		frame.getContentPane().add(txtJumlahBayar, gbc_txtJumlahBayar);
+		lblNewLabel_6 = new JLabel("KEMBALI");
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
+		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_6.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_6.gridx = 8;
+		gbc_lblNewLabel_6.gridy = 8;
+		frame.getContentPane().add(lblNewLabel_6, gbc_lblNewLabel_6);
+		
+		txtKembali = new JTextField();
+		txtKembali.setHorizontalAlignment(SwingConstants.RIGHT);
+		txtKembali.setEditable(false);
+		txtKembali.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		txtKembali.setColumns(10);
+		txtKembali.setBorder(null);
+		txtKembali.setBackground(SystemColor.controlHighlight);
+		GridBagConstraints gbc_txtKembali = new GridBagConstraints();
+		gbc_txtKembali.gridwidth = 2;
+		gbc_txtKembali.insets = new Insets(0, 0, 5, 20);
+		gbc_txtKembali.fill = GridBagConstraints.BOTH;
+		gbc_txtKembali.gridx = 9;
+		
+		
+		gbc_txtKembali.gridy = 8;
+		frame.getContentPane().add(txtKembali, gbc_txtKembali);
 	}
 	
 	private void DataBaru() {
@@ -883,7 +927,7 @@ public class FTransaksi {
 	private String SetNoFaktur() {
 		String noFaktur = "";
 		int count = 0;
-		DateFormat df = new SimpleDateFormat("ddMMyy");
+		DateFormat df = new SimpleDateFormat("ddMMyyHms");
 		db.con();
 		try {
 			String query = "select count(no_faktur) as count from tb_transaksi";
@@ -905,7 +949,7 @@ public class FTransaksi {
 	private String SetNoFakturKredit() {
 		String noFaktur = "";
 		int count = 0;
-		DateFormat df = new SimpleDateFormat("ddMMyy");
+		DateFormat df = new SimpleDateFormat("ddMMyyHms");
 		db.con();
 		try {
 			String query = "select count(no_faktur) as count from tb_transaksi_kredit";
@@ -930,7 +974,7 @@ public class FTransaksi {
 	    DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 	    centerRenderer.setHorizontalAlignment(0);
 	    
-	    String[] columnNames = { "Kode Barang", "Nama Barang", "Satuan", "Harga", "Qty", "Total" };
+	    String[] columnNames = { "Kode Barang", "Nama Barang", "Satuan", "Harga", "Qty", "Total", "Barang Diambil", "Barang disimpan" };
 	    model = new DefaultTableModel() {
 	    	private static final long serialVersionUID = 1L;
 	    	public boolean isCellEditable(int row, int column) {
@@ -939,18 +983,23 @@ public class FTransaksi {
 	    };
 	    model.setColumnIdentifiers(columnNames);
 	    table.setModel(model);
+	    
 	    table.setAutoResizeMode(0);
-	    table.getColumnModel().getColumn(0).setPreferredWidth(200);
+	    table.getColumnModel().getColumn(0).setPreferredWidth(160);
 	    table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-	    table.getColumnModel().getColumn(1).setPreferredWidth(200);
-	    table.getColumnModel().getColumn(2).setPreferredWidth(200);
+	    table.getColumnModel().getColumn(1).setPreferredWidth(230);
+	    table.getColumnModel().getColumn(2).setPreferredWidth(125);
 	    table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 	    table.getColumnModel().getColumn(3).setPreferredWidth(200);
 	    table.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
-	    table.getColumnModel().getColumn(4).setPreferredWidth(100);
+	    table.getColumnModel().getColumn(4).setPreferredWidth(70);
 	    table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
-	    table.getColumnModel().getColumn(5).setPreferredWidth(200);
+	    table.getColumnModel().getColumn(5).setPreferredWidth(180);
 	    table.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
+	    table.getColumnModel().getColumn(6).setPreferredWidth(175);
+	    table.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
+	    table.getColumnModel().getColumn(7).setPreferredWidth(175);
+	    table.getColumnModel().getColumn(7).setCellRenderer(centerRenderer);
 	    table.getTableHeader().setDefaultRenderer(new SimpleHeaderRenderer());
 		table.setRowHeight(25);
 	}
@@ -1044,6 +1093,7 @@ public class FTransaksi {
 			String query = "update tb_info set indeks = ?";
 			PreparedStatement ps = db.con.prepareStatement(query);
 			ps.setString(1, "" +comboBox.getSelectedIndex());
+			ps.execute();
 		} catch(Exception e) {
 			System.out.println("error simpan indeks transaksi " + e);
 		}
@@ -1098,6 +1148,7 @@ public class FTransaksi {
 	
 	private void SimpanDetailTransaksi() {
 		db.con();
+		double counter = 0;
 		try {
 			String query = "insert into tb_detail_transaksi values(?,?,?,?,?,?)";
 			PreparedStatement ps = null;
@@ -1110,11 +1161,46 @@ public class FTransaksi {
 				ps.setString(5, table.getValueAt(i, 4).toString());
 				ps.setString(6, ""+ AmbilHargaBeli(table.getValueAt(i, 0).toString(), table.getValueAt(i, 2).toString()));
 				ps.execute();
+				
+				counter += Double.parseDouble(table.getValueAt(i, 7).toString());
+				
+			}
+			ps.close();
+			db.con.close();
+			
+			
+		} catch(Exception e) {
+			System.out.println("error simpan detail transaksi tunai" + e);
+		}
+		
+		if (counter > 0) {
+			SimpanDo();
+			CetakDo();
+		} else 
+			Cetak();
+	}
+	
+	private void SimpanDo() {
+		db.con();
+		try {
+			String query = "insert into tb_do values(?,?,?,?,?,?)";
+			PreparedStatement ps = null;
+			for (int i = 0; i < table.getRowCount(); i++) {
+				ps = db.con.prepareStatement(query);
+				if (Double.parseDouble(table.getValueAt(i, 7).toString()) > 0) {
+					ps.setString(1, txtNoFaktur.getText());
+					ps.setString(2, table.getValueAt(i, 0).toString());
+					ps.setString(3, table.getValueAt(i, 2).toString());
+					ps.setString(4, table.getValueAt(i, 7).toString());
+					ps.setString(5, table.getValueAt(i, 6).toString());
+					ps.setString(6, "0"); 
+					ps.execute();
+				}
 			}
 			ps.close();
 			db.con.close();
 		} catch(Exception e) {
-			System.out.println("error simpan detail transaksi tunai" + e);
+			System.out.println("error simpan do " + e);
 		}
 	}
 	
@@ -1153,6 +1239,7 @@ public class FTransaksi {
 	
 	private void SimpanDetailTransaksiKredit() {
 		db.con();
+		double counter = 0;
 		try {
 			String query = "insert into tb_detail_transaksi_kredit values(?,?,?,?,?,?)";
 			PreparedStatement ps = null;
@@ -1165,12 +1252,20 @@ public class FTransaksi {
 				ps.setString(5, table.getValueAt(i, 4).toString());
 				ps.setString(6, ""+ AmbilHargaBeli(table.getValueAt(i, 0).toString(), table.getValueAt(i, 2).toString()));
 				ps.execute();
+				
+				counter += Double.parseDouble(table.getValueAt(i, 7).toString());
 			}
 			ps.close();
 			db.con.close();
 		} catch(Exception e) {
 			System.out.println("error simpan detail transaksi " + e);
 		}
+		
+		if (counter > 0) {
+			SimpanDo();
+			CetakDoKredit();
+		} else
+			CetakKredit();
 	}
 	
 	private void UpdateStokBarang() {
@@ -1181,7 +1276,7 @@ public class FTransaksi {
 			PreparedStatement ps = null;
 			for (int i = 0; i < table.getRowCount(); i++) {
 				ps = db.con.prepareStatement(query);
-				ps.setDouble(1, Double.parseDouble(table.getValueAt(i, 4).toString()));
+				ps.setDouble(1, Double.parseDouble(table.getValueAt(i, 6).toString()));
 				ps.setString(2, table.getValueAt(i, 0).toString());
 				ps.setString(3, table.getValueAt(i, 2).toString());
 				ps.execute();
@@ -1255,6 +1350,55 @@ public class FTransaksi {
 		}
 	}
 	
+	private void CetakDo() {
+		window.frame.setEnabled(false);
+		try {
+			db.con();
+			Map<String, Object> param = new HashMap<String, Object>();
+			
+			String reportName = ".\\laporan\\StrukDo.jasper";
+			param.put("paramNoFaktur", txtNoFaktur.getText());
+			param.put("paramJumlahBayar", txtJumlahBayar.getText());
+			param.put("paramKembali", txtKembali.getText());
+			
+			JasperPrint print = JasperFillManager.fillReport(reportName, param, db.con);
+			JRViewer jv = new JRViewer(print);
+			final JFrame jf = new JFrame();
+			jf.getContentPane().add(jv);
+			jf.validate();
+			jf.setVisible(true);
+			jf.setExtendedState(jf.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+			jf.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+			WindowListener exitListener = new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e){
+					FTransaksi.window.frame.setEnabled(true);
+					sw = new SwingWorker<String, Object>() {
+						@Override
+						protected String doInBackground() throws Exception {
+							if(FMain.d.portFound) {
+								FMain.d.ShowGreeting();
+								FMain.d.ShowOpening("    ***WELCOME***   ", 
+									       " MEGA DEPO BANGUNAN ");
+							}
+							return null;
+						}
+					};
+					Thread t1 = new Thread(sw);
+					t1.setPriority(Thread.MAX_PRIORITY);
+					t1.start();
+					jf.dispose();
+				}
+			};
+			jf.addWindowListener(exitListener);
+			
+			db.con.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+	
 	private void CetakKredit() {
 		window.frame.setEnabled(false);
 		try {
@@ -1262,6 +1406,55 @@ public class FTransaksi {
 			Map<String, Object> param = new HashMap<String, Object>();
 			
 			String reportName = ".\\laporan\\StrukKredit.jasper";
+			param.put("paramNoFaktur", txtNoFaktur.getText());
+			param.put("paramJumlahBayar", txtJumlahBayar.getText());
+			param.put("paramKembali", txtKembali.getText());
+			
+			JasperPrint print = JasperFillManager.fillReport(reportName, param, db.con);
+			JRViewer jv = new JRViewer(print);
+			final JFrame jf = new JFrame();
+			jf.getContentPane().add(jv);
+			jf.validate();
+			jf.setVisible(true);
+			jf.setExtendedState(jf.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+			jf.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+			WindowListener exitListener = new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e){
+					FTransaksi.window.frame.setEnabled(true);
+					sw = new SwingWorker<String, Object>() {
+						@Override
+						protected String doInBackground() throws Exception {
+							if(FMain.d.portFound) {
+								FMain.d.ShowGreeting();
+								FMain.d.ShowOpening("    ***WELCOME***   ", 
+									       " MEGA DEPO BANGUNAN ");
+							}
+							return null;
+						}
+					};
+					Thread t1 = new Thread(sw);
+					t1.setPriority(Thread.MAX_PRIORITY);
+					t1.start();
+					jf.dispose();
+				}
+			};
+			jf.addWindowListener(exitListener);
+			
+			db.con.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+	
+	private void CetakDoKredit() {
+		window.frame.setEnabled(false);
+		try {
+			db.con();
+			Map<String, Object> param = new HashMap<String, Object>();
+			
+			String reportName = ".\\laporan\\StrukDoKredit.jasper";
 			param.put("paramNoFaktur", txtNoFaktur.getText());
 			param.put("paramJumlahBayar", txtJumlahBayar.getText());
 			param.put("paramKembali", txtKembali.getText());
